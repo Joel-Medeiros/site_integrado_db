@@ -1,0 +1,36 @@
+{% extends "base.html"%}
+
+{% block content%}
+        <h1>Editar Aluno</h1>
+
+        <form method="POST" class="form-group">
+            <label for="nome">Nome:</label>
+            <input type="text" id="nome" name="nome" class="form-control" value="{{ aluno[1] }}" required><br><br>
+
+            <label for="cpf">CPF:</label>
+            <input type="text" id="cpf" name="cpf" class="form-control" value="{{ aluno[2] }}" required><br><br>
+
+            <label for="endereco">Endereço:</label>
+            <input type="text" id="endereco" name="endereco" class="form-control" value="{{ aluno[3] }}" required><br><br>
+
+            <label for="usuario_login">Usuário (Login):</label>
+            <input type="text" id="usuario_login" name="usuario_login" class="form-control" value="{{ aluno[4] }}" required><br><br>
+
+            <label for="senha">Senha:</label>
+            <input type="password" id="senha" name="senha" class="form-control" value="{{ aluno[5] }}"><br><br>
+
+            <label for="curso">Curso:</label>
+            <select name="curso" id="curso" class="form-control" required>
+                {% for curso in cursos %}
+                    <option value="{{ curso[0] }}" {% if curso[0] == curso_associado %}selected{% endif %}>
+                        {{ curso[1] }}
+                    </option>
+                {% endfor %}
+            </select><br><br>
+
+            <button type="submit" class="btn-secondary">Atualizar</button>
+        </form>
+
+        <br>
+        <a href="/alunos" class="btn btn-secondary">Voltar</a>
+{%endblock%}

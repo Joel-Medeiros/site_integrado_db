@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+  
+    <div class="row mb-4">
+        <div class="col-12 text-center">
+            <h2 class="display-4 text-primary">Disciplinas</h2>
+        </div>
+    </div>
+
+  
+    <div class="row mb-4">
+        <div class="col-12 col-md-8">
+            <form method="GET" action="/disciplinas" class="input-group">
+                <input type="text" name="search" class="form-control form-control-lg" placeholder="Buscar por nome ou ID da disciplina" value="{{ request.args.get('search') }}">
+                <div class="input-group-append">
+                    <button type="submit" class="btn btn-outline-primary btn-lg">Buscar</button>
+                </div>
+            </form>
+        </div>
+        <div class="col-12 col-md-4 text-md-right">
+            <a href="/disciplinas/inserir" class="btn btn-success btn-lg">Inserir Nova Disciplina</a>
+        </div>
+    </div>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="alert alert-info">
+                    <ul class="mb-0">
+                        {% for category, message in messages %}
+                            <li class="{{ category }}">{{ message }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+    {% endwith %}
+
+    
+    <div class="row">
+        {% for disciplina in disciplinas %}
+            <div class="col-12 col-md-6 col-lg-4 mb-4">
+                <div class="card shadow-sm">
+                    <div class="card-header bg-primary text-white">
+                        <h5 class="card-title">{{ disciplina[1] }}</h5>
+                    </div>
+                    <div class="card-body">
+                        <p><strong>ID:</strong> {{ disciplina[0] }}</p>
+                        <p><strong>Carga Horária:</strong> {{ disciplina[2] }} horas</p>
+                        <p><strong>Ações:</strong></p>
+                        <a href="/disciplinas/editar/{{ disciplina[0] }}" class="btn btn-warning btn-sm">Editar</a>
+                        
+                        <!-- Formulário para excluir a disciplina -->
+                        <form action="/disciplinas/excluir/{{ disciplina[0] }}" method="POST" style="display:inline;">
+                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Tem certeza que deseja excluir esta disciplina?');">Excluir</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

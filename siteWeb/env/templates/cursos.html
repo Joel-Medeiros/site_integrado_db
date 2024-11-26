@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <!-- Título da Página -->
+    <div class="row">
+        <div class="col-12 text-center">
+            <h2 class="display-4 text-primary">Cursos</h2>
+        </div>
+    </div>
+
+    <!-- Formulário de Busca -->
+    <div class="row mb-4">
+        <div class="col-12 col-md-8">
+            <form method="GET" action="/cursos" class="input-group">
+                <input type="text" name="search" class="form-control form-control-lg" placeholder="Buscar por nome, ID ou disciplina" value="{{ request.args.get('search') }}">
+                <div class="input-group-append">
+                    <button type="submit" class="btn btn-outline-primary btn-lg">Buscar</button>
+                </div>
+            </form>
+        </div>
+        <div class="col-12 col-md-4 text-md-right">
+            <a href="/cursos/inserir" class="btn btn-success btn-lg">Inserir Novo Curso</a>
+        </div>
+    </div>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="alert alert-info">
+                    <ul class="mb-0">
+                        {% for category, message in messages %}
+                            <li class="{{ category }}">{{ message }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+{% endwith %}
+
+   
+    <div class="row">
+        {% for curso in cursos %}
+        <div class="col-12 col-md-6 col-lg-4 mb-4">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">{{ curso[1] }}</h5>
+                    <p class="card-text"><strong>Carga Horária:</strong> {{ curso[2] }} horas</p>
+                    <p class="card-text"><strong>Disciplinas:</strong> {{ curso[3] }}</p>
+                    <div class="d-flex justify-content-between">
+                        <a href="{{ url_for('editar_curso', id=curso[0]) }}" class="btn btn-warning btn-sm">Editar</a>
+                       
+                        <form action="{{ url_for('excluir_curso', id=curso[0]) }}" method="POST" style="display:inline;">
+                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Tem certeza que deseja excluir?');">Excluir</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <!-- Título da Página -->
+    <div class="row mb-4">
+        <div class="col-12 text-center">
+            <h2 class="display-4 text-primary">Professores</h2>
+        </div>
+    </div>
+
+    <!-- Formulário de Busca -->
+    <div class="row mb-4">
+        <div class="col-12 col-md-8">
+            <form method="GET" action="{{ url_for('listar_professores') }}" class="input-group">
+                <input type="text" name="busca" class="form-control form-control-lg" placeholder="Buscar por nome" value="{{ request.args.get('busca', '') }}">
+                <div class="input-group-append">
+                    <button type="submit" class="btn btn-outline-primary btn-lg">Buscar</button>
+                </div>
+            </form>
+        </div>
+        <div class="col-12 col-md-4 text-md-right">
+            <a href="/professores/inserir" class="btn btn-success btn-lg">Inserir Novo Professor</a>
+        </div>
+    </div>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="alert alert-info">
+                    <ul class="mb-0">
+                        {% for category, message in messages %}
+                            <li class="{{ category }}">{{ message }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+{% endwith %}
+
+    <!-- Cards para Professores -->
+    <div class="row">
+        {% for professor in professores %}
+            <div class="col-12 col-md-6 col-lg-4 mb-4">
+                <div class="card shadow-sm">
+                    <div class="card-header bg-primary text-white">
+                        <h5 class="card-title">{{ professor[1] }}</h5>
+                    </div>
+                    <div class="card-body">
+                        <p><strong>Telefone:</strong> {{ professor[2] }}</p>
+                        <p><strong>Usuário de Login:</strong> {{ professor[3] }}</p>
+                        <p><strong>Disciplinas:</strong></p>
+                        {% if professor[4] %}
+                            {% set disciplinas = professor[4].split(',') %}
+                            <ul>
+                                {% for disciplina in disciplinas %}
+                                    <li>{{ disciplina }}</li>
+                                {% endfor %}
+                            </ul>
+                        {% else %}
+                            <p>Sem disciplinas</p>
+                        {% endif %}
+                        <p><strong>Ações:</strong></p>
+                        <a href="{{ url_for('editar_professor', id=professor[0]) }}" class="btn btn-warning btn-sm">Editar</a>
+                        
+                        <!-- Formulário para excluir o professor -->
+                        <form action="{{ url_for('excluir_professor', id=professor[0]) }}" method="POST" style="display:inline;">
+                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Tem certeza que deseja excluir?');">Excluir</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

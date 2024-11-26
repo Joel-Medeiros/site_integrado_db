@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerenciamento de Disciplinas</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            <div class="col-md-3 col-lg-2 bg-dark text-white border-right vh-100">
+                <div class="text-center py-4">
+                    <h4>Sisclass</h4>
+                </div>
+                <div class="list-group list-group-flush">
+                    <a href="/" class="list-group-item list-group-item-action active bg-dark text-white">Início</a>
+                    <a href="/disciplinas" class="list-group-item list-group-item-action">Disciplinas</a>
+                    <a href="/cursos" class="list-group-item list-group-item-action">Cursos</a>
+                    <a href="/professores" class="list-group-item list-group-item-action">Professores</a>
+                    <a href="/alunos" class="list-group-item list-group-item-action">Alunos</a>
+                </div>
+            </div>
+    
+          
+            <main class="col-md-9 col-lg-10" id="conteudo">
+                <div class="container mt-4">
+                   
+                    <div class="mt-4">
+                        {% block content %}
+                        {% endblock %}
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Scripts Bootstrap -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.4.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

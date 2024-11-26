@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+
+{%block content%}
+<div class="container mt-5">
+    <!-- Título da Página -->
+    <div class="row mb-4">
+        <div class="col-12 text-center">
+            <h1 class="display-4 text-primary">Lista de Alunos</h1>
+        </div>
+    </div>
+
+    <!-- Formulário de Busca -->
+    <div class="row mb-4">
+        <div class="col-12 col-md-8">
+            <form method="GET" action="/alunos" class="input-group">
+                <input type="text" name="busca" class="form-control form-control-lg" placeholder="Buscar aluno" value="{{ busca }}">
+                <div class="input-group-append">
+                    <button type="submit" class="btn btn-outline-primary btn-lg">Buscar</button>
+                </div>
+            </form>
+        </div>
+        <div class="col-12 col-md-4 text-md-right">
+            <a href="/alunos/inserir" class="btn btn-success btn-lg">Cadastrar Novo Aluno</a>
+        </div>
+    </div>
+
+    <!-- Exibição de Mensagens -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <div class="row mb-4">
+                <div class="col-12">
+                    <div class="alert alert-info">
+                        <ul class="mb-0">
+                            {% for category, message in messages %}
+                                <li class="{{ category }}">{{ message }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+    {% endwith %}
+
+    <!-- Cards para Alunos -->
+    <div class="row">
+        {% for aluno in alunos %}
+            <div class="col-12 col-md-6 col-lg-4 mb-4">
+                <div class="card shadow-sm">
+                    <div class="card-header bg-info text-white">
+                        <h5 class="card-title">{{ aluno[1] }}</h5> 
+                    </div>
+                    <div class="card-body">
+                        <p><strong>CPF:</strong> {{ aluno[2] }}</p>
+                        <p><strong>Endereço:</strong> {{ aluno[3] }}</p>
+                        <p><strong>Curso:</strong> {{ aluno[4] }}</p>
+
+                  
+                        <div class="d-flex justify-content-between">
+                            <a href="/alunos/editar/{{ aluno[0] }}" class="btn btn-warning btn-sm">Editar</a>
+                            
+                           
+                            <form action="/alunos/excluir/{{ aluno[0] }}" method="POST" style="display:inline;">
+                                <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Tem certeza que deseja excluir este aluno?');">Excluir</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{%endblock%}
